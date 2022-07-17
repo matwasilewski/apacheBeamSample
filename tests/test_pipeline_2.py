@@ -83,3 +83,34 @@ def test_aggregate_by_date():
                 ]
             ),
         )
+
+
+def test_filter_and_aggregate():
+    records = [
+        "2008-01-01 10:09:16 UTC,wallet00001866cb7e0f09a890,wallet00001e494c12b3083634,25",
+        "2009-01-01 11:09:16 UTC,wallet00001866cb7e0f09a890,wallet00001e494c12b3083634,50",
+        "2010-01-01 12:09:16 UTC,wallet00001866cb7e0f09a890,wallet00001e494c12b3083634,100",
+        "2010-01-01 13:09:16 UTC,wallet00001866cb7e0f09a890,wallet00001e494c12b3083634,200",
+        "2012-01-01 14:09:16 UTC,wallet00001866cb7e0f09a890,wallet00001e494c12b3083634,400",
+        "2012-02-01 15:09:16 UTC,wallet00001866cb7e0f09a890,wallet00001e494c12b3083634,800",
+        "2012-02-01 16:09:16 UTC,wallet00001866cb7e0f09a890,wallet00001e494c12b3083634,1600",
+        "2015-03-01 17:09:16 UTC,wallet00001866cb7e0f09a890,wallet00001e494c12b3083634,3200",
+        "2015-03-01 18:09:16 UTC,wallet00001866cb7e0f09a890,wallet00001e494c12b3083634,6400",
+        "2003-03-02 19:09:16 UTC,wallet00001866cb7e0f09a890,wallet00001e494c12b3083634,12800",
+        "2002-03-02 20:09:16 UTC,wallet00001866cb7e0f09a890,wallet00001e494c12b3083634,25600",
+    ]
+    with TestPipeline() as p:
+        records_pCollection = p | beam.Create(records)
+        output_pCollection = records_pCollection | FilterTransactions()
+
+        assert_that(
+            output_pCollection,
+            equal_to(
+                [
+                    "2010-01-01,300.0",
+                    "2012-01-01,400.0",
+                    "2012-02-01,2400.0",
+                    "2015-03-01,9600.0",
+                ]
+            ),
+        )
