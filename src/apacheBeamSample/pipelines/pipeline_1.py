@@ -1,3 +1,4 @@
+import json
 from datetime import datetime
 
 import apache_beam as beam
@@ -23,16 +24,19 @@ def run(options: PipelineOptions) -> None:
             | "Remove irrelevant columns"
             >> beam.Map(
                 lambda x: {
-                    "timestamp": x["timestamp"].date(),
+                    "date": x["timestamp"].date(),
                     "transaction_amount": x["transaction_amount"],
                 },
             )
-            | "Create a keyed pCollection"
-            >> beam.Map(
-                lambda x: (str(x["timestamp"]), x["transaction_amount"]),
+            | "Group by date and aggregate transaction amounts"
+            >> beam.GroupBy(lambda x: x["date"]).aggregate_field(
+                lambda y: y["transaction_amount"], sum, "total_amount"
             )
-            | "Combine amounts per dates" >> beam.CombinePerKey(sum)
-            | "Generate csv lines" >> beam.Map(lambda x: f"{x[0]},{x[1]}")
+            | "Generate dictionary"
+            >> beam.Map(
+                lambda x: {"date": str(x[0]), "total_amount": str(x[1])}
+            )
+            | "Format JSONL output" >> beam.Map(json.dumps)
             | "Write file to local output"
             >> beam.io.WriteToText(
                 output_path,
