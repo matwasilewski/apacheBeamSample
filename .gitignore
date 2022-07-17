@@ -4,3 +4,4 @@ secrets/*
 logs/*
 .idea/*
 output/*
+src/apacheBeamSample/__pycache__/
