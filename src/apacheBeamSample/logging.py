@@ -1,4 +1,4 @@
-from config import settings
+from .config import settings
 
 import datetime
 import logging
@@ -147,4 +147,3 @@ log = get_logger(
     verbose=settings.VERBOSE_LOGS,
     as_json=settings.JSON_LOGS,
 )
-
