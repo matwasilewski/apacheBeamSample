@@ -38,7 +38,7 @@ def run(options: PipelineOptions) -> None:
             p
             | "Read input file"
             >> beam.io.ReadFromText(input_file, skip_header_lines=1)
-            | "Lorem ipsum " >> FilterTransactions()
+            | "Filter Transactions " >> FilterTransactions()
             | "Write file to local output"
             >> beam.io.WriteToText(
                 output_path,
