@@ -1,5 +1,3 @@
-from .config import settings
-
 import datetime
 import logging
 import logging.handlers
@@ -9,6 +7,7 @@ from typing import Optional
 import ujson
 from json_log_formatter import JSONFormatter
 
+from .config import settings
 from .exceptions import BadLogFormatException
 
 GREY = "\x1b[38;21m"

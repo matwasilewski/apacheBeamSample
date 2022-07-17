@@ -1,8 +1,8 @@
 import csv
-
 from datetime import datetime
-from apache_beam.options.pipeline_options import PipelineOptions
+
 import apache_beam as beam
+from apache_beam.options.pipeline_options import PipelineOptions
 
 from apacheBeamSample.utils import parse_line
 
