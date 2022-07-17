@@ -1,3 +1,7 @@
+import csv
+from datetime import datetime
+
+
 def parse_line(element):
     for line in csv.DictReader(
         [element],
