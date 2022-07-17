@@ -22,3 +22,7 @@ and
 ## with Python
 
 `python src/apacheBeamSample/pipelines/pipeline_1.py`
+
+and 
+
+`python src/apacheBeamSample/pipelines/pipeline_2.py`
