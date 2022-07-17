@@ -2,6 +2,7 @@ import json
 from datetime import datetime
 
 import apache_beam as beam
+from apache_beam.io.filesystem import CompressionTypes
 from apache_beam.options.pipeline_options import PipelineOptions
 
 from apacheBeamSample.utils import parse_line
@@ -40,8 +41,8 @@ def run(options: PipelineOptions) -> None:
             | "Write file to local output"
             >> beam.io.WriteToText(
                 output_path,
-                file_name_suffix=".csv",
-                header="date,total_amount",
+                file_name_suffix=".jsonl",
+                compression_type=CompressionTypes.GZIP,
             )
         )
 

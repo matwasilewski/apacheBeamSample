@@ -3,6 +3,7 @@ from datetime import datetime
 
 import apache_beam as beam
 from apache_beam import PCollection
+from apache_beam.io.filesystem import CompressionTypes
 from apache_beam.options.pipeline_options import PipelineOptions
 
 from apacheBeamSample.utils import parse_line
@@ -50,8 +51,8 @@ def run(options: PipelineOptions) -> None:
             | "Write file to local output"
             >> beam.io.WriteToText(
                 output_path,
-                file_name_suffix=".jsonl",
-                header="date,total_amount",
+                file_name_suffix=".jsonl.gz",
+                compression_type=CompressionTypes.GZIP,
             )
         )
 
