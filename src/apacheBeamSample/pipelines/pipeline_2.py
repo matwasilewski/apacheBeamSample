@@ -34,7 +34,7 @@ def FilterTransactions(pcoll: PCollection) -> PCollection:
 
 def run(options: PipelineOptions) -> None:
     with beam.Pipeline(options=options) as p:
-        lines = (
+        (
             p
             | "Read input file"
             >> beam.io.ReadFromText(input_file, skip_header_lines=1)

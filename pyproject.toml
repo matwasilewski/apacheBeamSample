@@ -43,7 +43,7 @@ use_parentheses = true
 ensure_newline_before_comments = true
 
 [tool.flakehell]
-extended_default_ignore = []
+extended_default_ignore = ["W503"]
 exclude = ["README.md"]
 format = "colored"
 max_line_length = 79

@@ -8,7 +8,7 @@ from apacheBeamSample.utils import parse_line
 
 def run(options: PipelineOptions) -> None:
     with beam.Pipeline(options=options) as p:
-        lines = (
+        (
             p
             | "Read input file"
             >> beam.io.ReadFromText(input_file, skip_header_lines=1)

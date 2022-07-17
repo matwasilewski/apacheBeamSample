@@ -1,6 +1,6 @@
 import csv
 from datetime import datetime
-from typing import Dict, Union, List, Optional
+from typing import Dict, List, Optional
 
 
 def parse_line(
@@ -17,13 +17,15 @@ def parse_line(
     ):
         formatted_line = {
             "timestamp": datetime.strptime(
-                line["timestamp"], "%Y-%m-%d %H:%M:%S %Z",
+                line["timestamp"],
+                "%Y-%m-%d %H:%M:%S %Z",
             ),
             "origin": line["origin"],
             "destination": line["destination"],
             "transaction_amount": float(line["transaction_amount"]),
         }
         return formatted_line
+    return None
 
 
 def to_strings(element: Dict) -> List[str]:

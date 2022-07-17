@@ -1,4 +1,3 @@
-import datetime
 import os
 import time
 from functools import lru_cache
@@ -6,7 +5,7 @@ from typing import Dict, Optional, Union
 
 import pkg_resources
 import tomlkit
-from pydantic import BaseSettings, validator
+from pydantic import BaseSettings
 
 
 def _get_project_meta(name: str = "unknown") -> Dict:
@@ -55,8 +54,8 @@ class Settings(BaseSettings):
     # Logger
     LOGGER_NAME: str = "apacheBeamSample"
     LOG_LEVEL: str = "info"
-    VERBOSE_LOGS: Union[bool, int, str] = True
-    JSON_LOGS: Union[bool, int, str] = False
+    VERBOSE_LOGS: bool = True
+    JSON_LOGS: bool = False
     LOG_DIR: str = os.sep.join(
         ["logs", f"{current_timestamp}-apacheBeamSample.log"],
     )

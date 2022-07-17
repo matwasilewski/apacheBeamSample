@@ -1,4 +1,4 @@
-import csv
+from typing import List
 
 import apache_beam as beam
 import pytest
@@ -9,30 +9,30 @@ from apacheBeamSample.pipelines.pipeline_2 import FilterTransactions
 
 
 @pytest.fixture
-def records_before_2010():
+def records_before_2010() -> List[str]:
     with open("resources/records_before_2010.csv") as f:
         return f.readlines()
 
 
 @pytest.fixture
-def records_amount_greater_than_20():
+def records_amount_greater_than_20() -> List[str]:
     with open("resources/records_amount_greater_than_20.csv") as f:
         return f.readlines()
 
 
 @pytest.fixture
-def records_aggregate_by_date():
+def records_aggregate_by_date() -> List[str]:
     with open("resources/records_aggregate_by_date.csv") as f:
         return f.readlines()
 
 
 @pytest.fixture
-def records_filter_and_aggregate():
+def records_filter_and_aggregate() -> List[str]:
     with open("resources/records_filter_and_aggregate.csv") as f:
         return f.readlines()
 
 
-def test_filter_before_2010(records_before_2010):
+def test_filter_before_2010(records_before_2010: List[str]) -> None:
     with TestPipeline() as p:
         records_pCollection = p | beam.Create(records_before_2010)
         output_pCollection = records_pCollection | FilterTransactions()
@@ -48,7 +48,9 @@ def test_filter_before_2010(records_before_2010):
         )
 
 
-def test_filter_for_amount_greater_than_20(records_amount_greater_than_20):
+def test_filter_for_amount_greater_than_20(
+    records_amount_greater_than_20: List[str],
+) -> None:
     with TestPipeline() as p:
         records_pCollection = p | beam.Create(records_amount_greater_than_20)
         output_pCollection = records_pCollection | FilterTransactions()
@@ -65,7 +67,7 @@ def test_filter_for_amount_greater_than_20(records_amount_greater_than_20):
         )
 
 
-def test_aggregate_by_date(records_aggregate_by_date):
+def test_aggregate_by_date(records_aggregate_by_date: List[str]) -> None:
     with TestPipeline() as p:
         records_pCollection = p | beam.Create(records_aggregate_by_date)
         output_pCollection = records_pCollection | FilterTransactions()
@@ -84,7 +86,7 @@ def test_aggregate_by_date(records_aggregate_by_date):
         )
 
 
-def test_filter_and_aggregate(records_filter_and_aggregate):
+def test_filter_and_aggregate(records_filter_and_aggregate: List[str]) -> None:
     with TestPipeline() as p:
         records_pCollection = p | beam.Create(records_filter_and_aggregate)
         output_pCollection = records_pCollection | FilterTransactions()

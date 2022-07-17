@@ -481,7 +481,7 @@ protobuf = "<4.0.0dev"
 
 [[package]]
 name = "google-cloud-pubsub"
-version = "2.13.3"
+version = "2.13.4"
 description = "Google Cloud Pub/Sub API client library"
 category = "main"
 optional = false
