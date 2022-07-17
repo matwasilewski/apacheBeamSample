@@ -1,14 +1,14 @@
-import csv
 from datetime import datetime
 
 import apache_beam as beam
+from apache_beam import PCollection
 from apache_beam.options.pipeline_options import PipelineOptions
 
 from apacheBeamSample.utils import parse_line
 
 
 @beam.ptransform_fn
-def FilterTransactions(pcoll):
+def FilterTransactions(pcoll: PCollection) -> PCollection:
     return (
         pcoll
         | "Parse file" >> beam.Map(parse_line)
@@ -16,14 +16,14 @@ def FilterTransactions(pcoll):
         >> beam.Filter(lambda x: x["transaction_amount"] > 20)
         | "Exclude transaction made before year 2010"
         >> beam.Filter(
-            lambda x: x["timestamp"] >= datetime.strptime("2010 UTC", "%Y %Z")
+            lambda x: x["timestamp"] >= datetime.strptime("2010 UTC", "%Y %Z"),
         )
         | "Remove irrelevant columns"
         >> beam.Map(
             lambda x: {
                 "timestamp": x["timestamp"].date(),
                 "transaction_amount": x["transaction_amount"],
-            }
+            },
         )
         | "Create a keyed pCollection"
         >> beam.Map(lambda x: (str(x["timestamp"]), x["transaction_amount"]))
@@ -32,7 +32,7 @@ def FilterTransactions(pcoll):
     )
 
 
-def run(options):
+def run(options: PipelineOptions) -> None:
     with beam.Pipeline(options=options) as p:
         lines = (
             p

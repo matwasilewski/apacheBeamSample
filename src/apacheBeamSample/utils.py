@@ -1,8 +1,11 @@
 import csv
 from datetime import datetime
+from typing import Dict, Union, List, Optional
 
 
-def parse_line(element):
+def parse_line(
+    element: str,
+) -> Optional[Dict[str, object]]:
     for line in csv.DictReader(
         [element],
         fieldnames=[
@@ -14,7 +17,7 @@ def parse_line(element):
     ):
         formatted_line = {
             "timestamp": datetime.strptime(
-                line["timestamp"], "%Y-%m-%d %H:%M:%S %Z"
+                line["timestamp"], "%Y-%m-%d %H:%M:%S %Z",
             ),
             "origin": line["origin"],
             "destination": line["destination"],
@@ -23,5 +26,5 @@ def parse_line(element):
         return formatted_line
 
 
-def to_strings(element):
+def to_strings(element: Dict) -> List[str]:
     return [str(v) for v in element.values()]

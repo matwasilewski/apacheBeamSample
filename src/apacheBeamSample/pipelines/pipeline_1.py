@@ -1,4 +1,3 @@
-import csv
 from datetime import datetime
 
 import apache_beam as beam
@@ -7,7 +6,7 @@ from apache_beam.options.pipeline_options import PipelineOptions
 from apacheBeamSample.utils import parse_line
 
 
-def run(options):
+def run(options: PipelineOptions) -> None:
     with beam.Pipeline(options=options) as p:
         lines = (
             p
@@ -19,18 +18,18 @@ def run(options):
             | "Exclude transaction made before year 2010"
             >> beam.Filter(
                 lambda x: x["timestamp"]
-                >= datetime.strptime("2010 UTC", "%Y %Z")
+                >= datetime.strptime("2010 UTC", "%Y %Z"),
             )
             | "Remove irrelevant columns"
             >> beam.Map(
                 lambda x: {
                     "timestamp": x["timestamp"].date(),
                     "transaction_amount": x["transaction_amount"],
-                }
+                },
             )
             | "Create a keyed pCollection"
             >> beam.Map(
-                lambda x: (str(x["timestamp"]), x["transaction_amount"])
+                lambda x: (str(x["timestamp"]), x["transaction_amount"]),
             )
             | "Combine amounts per dates" >> beam.CombinePerKey(sum)
             | "Generate csv lines" >> beam.Map(lambda x: f"{x[0]},{x[1]}")

@@ -58,7 +58,7 @@ class Settings(BaseSettings):
     VERBOSE_LOGS: Union[bool, int, str] = True
     JSON_LOGS: Union[bool, int, str] = False
     LOG_DIR: str = os.sep.join(
-        ["logs", f"{current_timestamp}-apacheBeamSample.log"]
+        ["logs", f"{current_timestamp}-apacheBeamSample.log"],
     )
     SYSLOG_ADDR: Optional[str] = None
 
